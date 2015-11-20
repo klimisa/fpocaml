@@ -1,16 +1,8 @@
 let is_sorted a =
-  let array_length = (Array.length a) in
-  if array_length = 0 || array_length = 1 then true
-  else
-    let is_asc s s' = (String.compare s s' < 0) in
-    let rec loop current_idx next_idx =
-      if next_idx < array_length - 1 then
-        if is_asc a.(current_idx) a.(next_idx) then
-          loop (current_idx + 1) (next_idx + 1)
-        else false
-      else
-        is_asc a.(current_idx) a.(next_idx)
-    in loop 0 1;;
+    let rec loop i =
+      if i >= Array.length a - 1 then true
+			else String.compare a.(i) a.(i+1) < 0 && loop (i+1)
+    in loop 0;;
 
 let find dict word =
   let key_not_found = -1 in
