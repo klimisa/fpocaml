@@ -16,7 +16,6 @@ let rec combine l1 l2 =
 let rec assoc l k =
   match l with
   | [] -> None
-  | x::xs -> 
-  	let (k', x') = x in
-			if k' = k then Some x'
+  | (k', x)::xs -> 
+			if k' = k then Some x
 			else assoc xs k ;;
