@@ -17,34 +17,52 @@ let example =
 	 ('A', Trie (Some 15, []))])
 
 let children_from_char m c =
-  let rec cfc l =
+  let rec children_from_char_helper l =
     match l with 
     | [] -> None
-    | (key, t)::xs ->
-    		match (xs, t)
-        if ch = c then 
+    | (c', t)::xs ->
+        if c' = c then 
           Some t
-        else cfc xs
-    | 
-  in cfc m;;
-
+        else children_from_char_helper xs
+  in children_from_char_helper m;;
 
 let update_children m c t =
-	let e = (c,t) in
-	let rec update_helper accu l = 
-		match l with
-		| [] -> List.rev accu
-		| x::xs -> 
-			let (ch, t) = x in
-				if ch = c then 
-					update_helper (e :: accu) xs
-				else 
-					update_helper xaccu) xs
-	in update_helper [] m;;
-
+	if children_from_char m c = None then m @ [(c , t)]
+	else
+		let rec update_children_helper accu l =
+		  match l with 
+		  | [] -> List.rev accu 
+		  | (c', t') :: xs ->
+		      if c' = c then 
+		       	update_children_helper ((c , t ) :: accu) xs
+		      else 
+		        update_children_helper ((c', t') :: accu) xs
+  	in update_children_helper [] m;;	
+  	
 let lookup trie w =
-  "Replace this string with your implementation." ;;
+  let rec lookup_helper t i =
+  	let Trie (x,l) = t in 
+		  if i >= String.length w then x
+		  else
+		    let rec loop = function		  
+		      | [] -> None 
+		      | (c, t)::xs  ->
+		          if c = String.get w i then 
+		            lookup_helper t (i+1)
+		          else loop xs 
+		    in loop l
+  in lookup_helper trie 0;;
 
 let insert trie w v =
-  "Replace this string with your implementation." ;;
-
+  let rec insert_helper t i =
+  	let Trie (x,l) = t in 
+		  if i >= String.length w then x
+		  else
+		    let rec loop = function		  
+		      | [] -> Trie (x, l @ (String.get w i, [])) 
+		      | (c, t)::xs  ->
+		          if c = String.get w i then 
+		            insert_helper t (i+1)
+		          else loop xs 
+		    in loop l
+  in insert_helper trie 0;;
