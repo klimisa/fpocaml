@@ -27,15 +27,11 @@ let compare user reference to_string =
   
 
 let test user reference sample to_string =
-  let s0 = sample () in let a0 = compare (exec user s0) (exec reference s0) to_string in 
-  let s1 = sample () in let a1 = compare (exec user s1) (exec reference s1) to_string in
-  let s2 = sample () in let a2 = compare (exec user s2) (exec reference s2) to_string in
-  let s3 = sample () in let a3 = compare (exec user s3) (exec reference s3) to_string in
-  let s4 = sample () in let a4 = compare (exec user s4) (exec reference s4) to_string in
-  let s5 = sample () in let a5 = compare (exec user s5) (exec reference s5) to_string in
-  let s6 = sample () in let a6 = compare (exec user s6) (exec reference s6) to_string in
-  let s7 = sample () in let a7 = compare (exec user s7) (exec reference s7) to_string in
-  let s8 = sample () in let a8 = compare (exec user s8) (exec reference s8) to_string in
-  let s9 = sample () in let a9 = compare (exec user s9) (exec reference s9) to_string in
-  ((a0::a1::a2::a3::a4::a5::a6::a7::a8::a9::[]) : report)
+  let rec loop i acc =
+  		if i >= 10 then List.rev acc
+  		else
+      let s = sample () in 
+      let a = compare (exec user s) (exec reference s) to_string in
+      loop (i+1) (a::acc)
+  in loop 0 [];; 
 
