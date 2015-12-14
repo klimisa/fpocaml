@@ -38,30 +38,10 @@ let rec append l l' =
    | List (x, xl) -> append xl l';;
 
 let rec filter p l =
-   match l.pointer with
-   | Nil -> l.pointer <- Nil
-   | List (x, ({pointer} as xl)) -> 
-   	if p x then	
-   		filter p xl
-   	else 
-   		(l.pointer <- pointer;
-   		filter p xl)
-   		;;
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-   		
-
+  match l.pointer with
+  | Nil -> l.pointer <- Nil
+  | List (x, ({pointer} as e)) -> 
+      if p x then	
+        filter p e
+      else 
+        (l.pointer <- pointer;filter p l) ;;
